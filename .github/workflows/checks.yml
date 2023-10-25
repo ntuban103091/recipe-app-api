@@ -12,7 +12,7 @@ jobs:
 
     steps:
       - name: Configure Docker authentication
-        run: echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u ${{ secrets.DOCKERHUB_USER }} --password-stdin docker.io
+        run: echo ${{ secrets.DOCKER_CONFIG_JSON }} | base64 -d > ~/.docker/config.json
 
       - name: Checkout
         uses: actions/checkout@v2
