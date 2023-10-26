@@ -1,0 +1,24 @@
+name: Checks
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test-lint:
+    name: Test and Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Configure Docker authentication
+        run: echo ${{ secrets.DOCKER_CONFIG_JSON }} | base64 -d > ~/.docker/config.json
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Test
+        run: docker-compose run --rm app sh -c "python manage.py test"
+
+      - name: Lint
+        run: docker-compose run --rm app sh -c "flake8"
